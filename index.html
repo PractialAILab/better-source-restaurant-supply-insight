@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Better Source - Restaurant Supply Insight</title>
-
+  
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/assets/icons/BS32x32logo.png">
   
@@ -330,11 +330,16 @@
           
           // Add coupon section for premium restaurants
           if (restaurant.subscription_tier === 'premium' && restaurant.direct_image_url && restaurant.direct_image_url.trim() !== '') {
+            console.log('Premium restaurant found:', restaurant.name);
+            console.log('Coupon URL:', restaurant.direct_image_url);
+            
             popupContent += '<div class="coupon-section">';
             popupContent += '<p>💰 Current Special Offer:</p>';
-            popupContent += '<img src="' + restaurant.direct_image_url + '" alt="Special Coupon Offer" onclick="window.open(this.src, \'_blank\')">';
+            popupContent += '<img src="' + restaurant.direct_image_url + '" alt="Special Coupon Offer" onclick="window.open(this.src, \'_blank\')" onerror="console.error(\'Failed to load coupon image:\', this.src)">';
             popupContent += '<small style="display: block; margin-top: 5px; color: #7f8c8d;">Click image to view full size</small>';
             popupContent += '</div>';
+          } else {
+            console.log('Not premium or no coupon URL:', restaurant.name, restaurant.subscription_tier, restaurant.direct_image_url);
           }
           
           popupContent += '</div>';
