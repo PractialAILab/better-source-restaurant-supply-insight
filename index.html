@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -306,10 +306,15 @@
       complete: function(results) {
         console.log('✅ CSV parsed successfully!');
         console.log('Number of restaurants:', results.data.length);
-        console.log('Sample data:', results.data[0]);
+        console.log('=== ALL CSV COLUMNS ===');
+        if (results.data.length > 0) {
+          console.log('Column names:', Object.keys(results.data[0]));
+          console.log('First restaurant full data:', results.data[0]);
+        }
+        console.log('========================');
         
         // Create markers for each restaurant
-        results.data.forEach(function(restaurant) {
+        results.data.forEach(function(restaurant, index) {
           // Skip if missing required fields
           if (!restaurant.name || !restaurant.lat || !restaurant.lon) {
             console.warn('Skipping invalid entry:', restaurant);
