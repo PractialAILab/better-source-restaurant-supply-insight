@@ -378,14 +378,16 @@
       appetizers: 'Appetizers'
     };
     
-    // Function to get ranking badge HTML
-    function getRankingBadge(score) {
-      if (score >= 7) {
-        return '<span class="ranking-badge ranking-high" title="High Local Sourcing (7-9 categories)"></span>';
-      } else if (score >= 4) {
-        return '<span class="ranking-badge ranking-medium" title="Medium Local Sourcing (4-6 categories)"></span>';
+    // Function to get ranking badge HTML based on percentage
+    function getRankingBadge(restaurant) {
+      var percentage = parseFloat(restaurant.local_percentage) || 0;
+      
+      if (percentage >= 75) {
+        return '<span class="ranking-badge ranking-high" title="Excellent Local Sourcing (' + percentage + '% of menu is local)"></span>';
+      } else if (percentage >= 50) {
+        return '<span class="ranking-badge ranking-medium" title="Good Local Sourcing (' + percentage + '% of menu is local)"></span>';
       } else {
-        return '<span class="ranking-badge ranking-basic" title="Basic Local Sourcing (0-3 categories)"></span>';
+        return '<span class="ranking-badge ranking-basic" title="Basic Local Sourcing (' + percentage + '% of menu is local)"></span>';
       }
     }
     
@@ -405,8 +407,7 @@
     
     // Function to create restaurant card HTML
     function createRestaurantCard(restaurant, index) {
-      var score = parseInt(restaurant.local_score) || 0;
-      var rankingBadge = getRankingBadge(score);
+      var rankingBadge = getRankingBadge(restaurant);
       var categoryBadges = getCategoryBadges(restaurant);
       
       var html = '<div class="restaurant-card" data-index="' + index + '">';
@@ -481,8 +482,7 @@
           allRestaurants[allRestaurants.length - 1].marker = marker;
           
           // Create popup
-          var score = parseInt(restaurant.local_score) || 0;
-          var rankingBadge = getRankingBadge(score);
+          var rankingBadge = getRankingBadge(restaurant);
           
           var popupContent = '<div style="min-width: 200px;">';
           popupContent += '<h3 style="margin-bottom: 8px;">' + rankingBadge + restaurant.name + '</h3>';
