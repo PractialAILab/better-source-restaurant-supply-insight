@@ -120,7 +120,7 @@
       background: #f0f9f4;
     }
     
-    /* Ranking Badge - FIXED STYLES WITH STRONG SPECIFICITY */
+    /* Ranking Badge */
     .ranking-badge {
       display: inline-block;
       width: 30px;
@@ -384,22 +384,9 @@
       appetizers: 'Appetizers'
     };
     
-    // Function to get ranking badge HTML based on percentage - ENHANCED DIAGNOSTIC VERSION
+    // Function to get ranking badge HTML based on percentage
     function getRankingBadge(restaurant) {
-      // Log ALL properties of the restaurant object for first restaurant
-      if (!window.fullDebugDone) {
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.log('🔍 FULL RESTAURANT OBJECT INSPECTION:');
-        console.log('Restaurant name:', restaurant.name);
-        console.log('All properties:');
-        for (var key in restaurant) {
-          console.log('  - ' + key + ': "' + restaurant[key] + '"');
-        }
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        window.fullDebugDone = true;
-      }
-      
-      // Get the raw value from the CSV
+      // CRITICAL FIX: Added "restaurant." prefix
       var rawValue = restaurant.local_percentage;
       
       // Convert to string and clean it
@@ -412,23 +399,17 @@
         percentage = 0;
       }
       
-      // ENHANCED DEBUGGING - Log every restaurant with color coding
-      var emoji = '🔴'; // red for basic
+      // Determine badge class based on percentage
       var badgeClass = 'ranking-basic';
       var badgeText = 'Basic';
       
       if (percentage >= 75) {
-        emoji = '🟢'; // green for high
         badgeClass = 'ranking-high';
         badgeText = 'Excellent';
       } else if (percentage >= 50) {
-        emoji = '🟡'; // yellow for medium
         badgeClass = 'ranking-medium';
         badgeText = 'Good';
       }
-      
-      // Log with emoji indicator
-      console.log(emoji + ' ' + restaurant.name + ': ' + percentage + '% → ' + badgeText);
       
       var title = badgeText + ' Local Sourcing (' + percentage + '% of menu is local)';
       
@@ -483,35 +464,18 @@
     }
     
     // Load CSV and populate
-    console.log('🚀 Loading restaurant data...');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    
     Papa.parse('/assets/data/stores.csv', {
       download: true,
       header: true,
-      skipEmptyLines: 'greedy',  // Changed from true to 'greedy' to handle empty cells better
-      delimiter: ',',  // Explicitly set delimiter
-      newline: '',  // Auto-detect line endings
+      skipEmptyLines: 'greedy',
+      delimiter: ',',
+      newline: '',
       quoteChar: '"',
       escapeChar: '"',
       transformHeader: function(header) {
-        // Trim whitespace from headers
         return header.trim();
       },
       complete: function(results) {
-        console.log('✅ CSV parsed successfully!');
-        console.log('📊 Total restaurants:', results.data.length);
-        console.log('📋 CSV columns:', results.meta.fields);
-        console.log('📋 Column count:', results.meta.fields.length);
-        console.log('📋 Column names:', results.meta.fields.join(', '));
-        console.log('🔍 Sample row data:', results.data[0]);
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.log('🎨 BADGE COLOR LEGEND:');
-        console.log('   🟢 Green = 75%+ (Excellent)');
-        console.log('   🟡 Orange = 50-74% (Good)');
-        console.log('   🔴 Red = 0-49% (Basic)');
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        
         if (results.data.length === 0) {
           $('#restaurant-list').html('<div class="empty-state"><i class="fa fa-exclamation-circle"></i><p>No restaurants found.</p></div>');
           return;
@@ -524,7 +488,6 @@
         results.data.forEach(function(restaurant, index) {
           // Skip if missing required fields
           if (!restaurant.name || !restaurant.lat || !restaurant.lon) {
-            console.warn('⚠️ Skipping invalid entry:', restaurant);
             return;
           }
           
@@ -561,9 +524,6 @@
           $('#restaurant-list').append(cardHtml);
         });
         
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.log('✅ All restaurants loaded and displayed!');
-        
         // Fit map to show all markers
         if (allRestaurants.length > 0) {
           var group = new L.featureGroup(allRestaurants.map(r => r.marker));
@@ -571,7 +531,7 @@
         }
       },
       error: function(error) {
-        console.error('❌ Error parsing CSV:', error);
+        console.error('Error parsing CSV:', error);
         $('#restaurant-list').html('<div class="empty-state"><i class="fa fa-exclamation-circle"></i><p>Error loading restaurant data.</p></div>');
       }
     });
