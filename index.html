@@ -29,256 +29,330 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       overflow: hidden;
+      display: flex;
+    }
+    
+    /* Sidebar Layout */
+    #sidebar {
+      width: 400px;
+      height: 100vh;
+      background: #f8f9fa;
+      overflow-y: auto;
+      border-right: 2px solid #dee2e6;
+      z-index: 100;
+    }
+    
+    #map-container {
+      flex: 1;
+      height: 100vh;
+      position: relative;
     }
     
     #map {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 1;
+      width: 100%;
+      height: 100%;
     }
     
-    /* Header Styles */
+    /* Header in Sidebar */
     #header {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: white;
-      padding: 15px 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      max-width: 90%;
-    }
-    
-    h1 {
-      font-size: 1.5em;
-      color: #2c3e50;
+      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+      color: white;
+      padding: 20px;
       text-align: center;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     
-    h1 img {
+    #header img {
       height: 40px;
+      vertical-align: middle;
       margin-right: 10px;
     }
     
-    #searchIcon {
-      margin-left: 10px;
-      cursor: pointer;
-      color: #3498db;
+    #header h1 {
+      font-size: 1.3em;
+      color: white;
+      display: inline;
+      vertical-align: middle;
     }
     
-    /* Search Box */
-    #searchBox {
-      position: absolute;
-      top: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: white;
+    /* Search Box in Sidebar */
+    #search-container {
       padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      display: none;
-      max-width: 90%;
-      width: 400px;
-    }
-    
-    #searchBox.active {
-      display: block;
+      background: white;
+      border-bottom: 1px solid #dee2e6;
     }
     
     #searchInput {
       width: 100%;
-      padding: 10px;
-      border: 2px solid #3498db;
-      border-radius: 5px;
-      font-size: 1em;
+      padding: 10px 15px;
+      border: 2px solid #2ecc71;
+      border-radius: 25px;
+      font-size: 0.95em;
     }
     
-    #searchResults {
-      margin-top: 10px;
-      max-height: 300px;
-      overflow-y: auto;
+    #searchInput:focus {
+      outline: none;
+      border-color: #27ae60;
     }
     
-    .search-result-item {
+    /* Restaurant List */
+    #restaurant-list {
       padding: 10px;
-      border-bottom: 1px solid #ecf0f1;
+    }
+    
+    .restaurant-card {
+      background: white;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.3s ease;
+      border-left: 4px solid #ddd;
     }
     
-    .search-result-item:hover {
-      background: #ecf0f1;
+    .restaurant-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
     }
     
-    .search-result-item strong {
+    .restaurant-card.selected {
+      border-left-color: #2ecc71;
+      background: #f0f9f4;
+    }
+    
+    /* Ranking Badge */
+    .ranking-badge {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .ranking-high {
+      background: #2ecc71;
+    }
+    
+    .ranking-medium {
+      background: #f39c12;
+    }
+    
+    .ranking-basic {
+      background: #e74c3c;
+    }
+    
+    .restaurant-card h3 {
+      font-size: 1.1em;
       color: #2c3e50;
-      display: block;
-      margin-bottom: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
     }
     
-    .search-result-item small {
+    .restaurant-card p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 0.9em;
+    }
+    
+    .restaurant-card p strong {
+      color: #2c3e50;
+    }
+    
+    /* Category Badges */
+    .category-container {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .category-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #2ecc71;
+      color: white;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: bold;
+    }
+    
+    /* Coupon Indicator */
+    .coupon-indicator {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #f39c12;
+      color: white;
+      border-radius: 15px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    
+    .coupon-link {
+      color: #2ecc71;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .coupon-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Phone and Hours */
+    .contact-info {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #ecf0f1;
+    }
+    
+    .contact-info a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
       color: #7f8c8d;
     }
     
-    /* Error Message */
-    #errorMessage {
+    .empty-state i {
+      font-size: 3em;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    
+    /* FOR RESTAURANTS BUTTON */
+    #restaurantCTA {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    #restaurantCTA a {
+      background: #2ecc71;
+      color: white;
+      padding: 12px 20px;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 2000;
-      display: none;
-      text-align: center;
-      max-width: 400px;
-    }
-    
-    #errorMessage.show {
-      display: block;
-    }
-    
-    /* Popup Styles */
-    .leaflet-popup-content-wrapper {
-      border-radius: 8px;
-      padding: 0;
-    }
-    
-    .leaflet-popup-content {
-      margin: 15px;
-      min-width: 250px;
-      max-width: 400px;
-    }
-    
-    .restaurant-popup h3 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-      font-size: 1.2em;
-    }
-    
-    .restaurant-popup p {
-      margin: 8px 0;
-      color: #555;
-      line-height: 1.5;
-    }
-    
-    .restaurant-popup strong {
-      color: #2c3e50;
-    }
-    
-    .coupon-section {
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 5px;
-      margin-top: 12px;
-      border: 2px solid #2ecc71;
-    }
-    
-    .coupon-section hr {
-      border: none;
-      border-top: 1px solid #ddd;
-      margin: 10px 0;
-    }
-    
-    .coupon-section p {
+      text-decoration: none;
       font-weight: bold;
-      color: #2ecc71;
-      margin-bottom: 8px;
-    }
-    
-    .coupon-section img {
-      max-width: 100%;
-      border-radius: 5px;
-      margin-top: 5px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: inline-block;
+      font-size: 0.9em;
       transition: all 0.3s ease;
     }
     
-    .coupon-section img:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transform: scale(1.02);
+    #restaurantCTA a:hover {
+      background: #27ae60;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+    
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #7f8c8d;
+    }
+    
+    .loading i {
+      font-size: 2em;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     /* Mobile Responsive */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 1.2em;
+      body {
+        flex-direction: column;
       }
       
-      #header {
-        padding: 10px 15px;
-        top: 10px;
+      #sidebar {
+        width: 100%;
+        height: 50vh;
+        border-right: none;
+        border-bottom: 2px solid #dee2e6;
       }
       
-      #searchBox {
-        top: 70px;
-        width: 90%;
+      #map-container {
+        height: 50vh;
+      }
+      
+      #header h1 {
+        font-size: 1.1em;
+      }
+      
+      .restaurant-card {
+        padding: 12px;
       }
     }
   </style>
 </head>
 <body>
   
-  <!-- Header -->
-  <div id="header">
-    <h1>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <!-- Header -->
+    <div id="header">
       <img src="/assets/icons/BS32x32logo.png" alt="Better Source Logo">
-      Better Source - Restaurant Supply Insight
-      <span id="searchIcon"><i class="fa fa-search"></i></span>
-    </h1>
-  </div>
-  
-  <!-- Search Box -->
-  <div id="searchBox">
-    <input type="text" id="searchInput" placeholder="Search restaurants...">
-    <div id="searchResults"></div>
-  </div>
-  
-  <!-- Error Message -->
-  <div id="errorMessage">
-    <h3>⚠️ Data Loading Error</h3>
-    <p id="errorText">Unable to load restaurant data.</p>
-    <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Retry
-    </button>
+      <h1>Better Source</h1>
+    </div>
+    
+    <!-- Search -->
+    <div id="search-container">
+      <input type="text" id="searchInput" placeholder="🔍 Search restaurants...">
+    </div>
+    
+    <!-- Restaurant List -->
+    <div id="restaurant-list">
+      <div class="loading">
+        <i class="fa fa-spinner"></i>
+        <p>Loading restaurants...</p>
+      </div>
+    </div>
   </div>
   
   <!-- Map Container -->
-  <div id="map"></div>
-  
-  <!-- FOR RESTAURANTS BUTTON -->
-  <div id="restaurantCTA" style="display: block; position: absolute; bottom: 20px; right: 20px; z-index: 1000;">
-    <a href="restaurant-application.html" 
-       style="background: #2ecc71; color: white; padding: 12px 20px; 
-              border-radius: 8px; text-decoration: none; font-weight: bold; 
-              box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: inline-block;
-              font-size: 0.9em; transition: all 0.3s ease;">
-      🌱 List Your Restaurant
-    </a>
+  <div id="map-container">
+    <div id="map"></div>
+    
+    <!-- FOR RESTAURANTS BUTTON -->
+    <div id="restaurantCTA">
+      <a href="restaurant-application.html">
+        🌱 List Your Restaurant
+      </a>
+    </div>
   </div>
   
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
-  <!-- Papa Parse for better CSV handling -->
+  <!-- Papa Parse for CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   
   <script>
-    // Initialize the map
-    var map = L.map('map').setView([39.7392, -104.9903], 11);
+    // Wait for all libraries to load
+    window.addEventListener('load', function() {
+      initMap();
+    });
+    
+    function initMap() {
+      // Initialize the map
+      var map = L.map('map').setView([39.7392, -104.9903], 11);
     
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -286,18 +360,85 @@
       maxZoom: 19
     }).addTo(map);
     
-    // Store all markers for search functionality
-    var allMarkers = [];
+    // Store all restaurants and markers
+    var allRestaurants = [];
     var markersLayer = L.layerGroup().addTo(map);
+    var currentMarker = null;
     
-    // Function to show error
-    function showError(message) {
-      document.getElementById('errorText').textContent = message;
-      document.getElementById('errorMessage').classList.add('show');
+    // Category labels for display
+    var categoryLabels = {
+      beef: 'Beef',
+      pork: 'Pork',
+      chicken: 'Chicken',
+      seafood: 'Seafood',
+      breads: 'Breads',
+      produce: 'Produce',
+      dairy: 'Dairy',
+      desserts: 'Desserts',
+      appetizers: 'Appetizers'
+    };
+    
+    // Function to get ranking badge HTML
+    function getRankingBadge(score) {
+      if (score >= 7) {
+        return '<span class="ranking-badge ranking-high" title="High Local Sourcing (7-9 categories)"></span>';
+      } else if (score >= 4) {
+        return '<span class="ranking-badge ranking-medium" title="Medium Local Sourcing (4-6 categories)"></span>';
+      } else {
+        return '<span class="ranking-badge ranking-basic" title="Basic Local Sourcing (0-3 categories)"></span>';
+      }
     }
     
-    // Load CSV using Papa Parse (better than Omnivore for complex CSVs)
-    console.log('Loading restaurant data with Papa Parse...');
+    // Function to get category badges HTML
+    function getCategoryBadges(restaurant) {
+      var badges = '';
+      var categories = ['beef', 'pork', 'chicken', 'seafood', 'breads', 'produce', 'dairy', 'desserts', 'appetizers'];
+      
+      categories.forEach(function(cat) {
+        if (restaurant[cat] && restaurant[cat].toLowerCase() === 'yes') {
+          badges += '<span class="category-badge">' + categoryLabels[cat] + '</span>';
+        }
+      });
+      
+      return badges ? '<div class="category-container">' + badges + '</div>' : '';
+    }
+    
+    // Function to create restaurant card HTML
+    function createRestaurantCard(restaurant, index) {
+      var score = parseInt(restaurant.local_score) || 0;
+      var rankingBadge = getRankingBadge(score);
+      var categoryBadges = getCategoryBadges(restaurant);
+      
+      var html = '<div class="restaurant-card" data-index="' + index + '">';
+      html += '<h3>' + rankingBadge + restaurant.name + '</h3>';
+      html += '<p><strong>📍</strong> ' + restaurant.address + '</p>';
+      
+      // Contact Info
+      if (restaurant.phone || restaurant.hours) {
+        html += '<div class="contact-info">';
+        if (restaurant.phone) {
+          html += '<p><strong>📞</strong> <a href="tel:' + restaurant.phone.replace(/[^0-9]/g, '') + '">' + restaurant.phone + '</a></p>';
+        }
+        if (restaurant.hours) {
+          html += '<p><strong>🕒</strong> ' + restaurant.hours + '</p>';
+        }
+        html += '</div>';
+      }
+      
+      // Category badges
+      html += categoryBadges;
+      
+      // Coupon indicator
+      if (restaurant.subscription_tier === 'premium' && restaurant.direct_image_url && restaurant.direct_image_url.trim() !== '') {
+        html += '<div class="coupon-indicator">💰 <a href="' + restaurant.direct_image_url + '" target="_blank" class="coupon-link" style="color: white;">Special Offer Available</a></div>';
+      }
+      
+      html += '</div>';
+      return html;
+    }
+    
+    // Load CSV and populate
+    console.log('Loading restaurant data...');
     
     Papa.parse('/assets/data/stores.csv', {
       download: true,
@@ -306,14 +447,17 @@
       complete: function(results) {
         console.log('✅ CSV parsed successfully!');
         console.log('Number of restaurants:', results.data.length);
-        console.log('=== ALL CSV COLUMNS ===');
-        if (results.data.length > 0) {
-          console.log('Column names:', Object.keys(results.data[0]));
-          console.log('First restaurant full data:', results.data[0]);
-        }
-        console.log('========================');
+        console.log('Sample data:', results.data[0]);
         
-        // Create markers for each restaurant
+        if (results.data.length === 0) {
+          $('#restaurant-list').html('<div class="empty-state"><i class="fa fa-exclamation-circle"></i><p>No restaurants found.</p></div>');
+          return;
+        }
+        
+        // Clear loading state
+        $('#restaurant-list').empty();
+        
+        // Process each restaurant
         results.data.forEach(function(restaurant, index) {
           // Skip if missing required fields
           if (!restaurant.name || !restaurant.lat || !restaurant.lon) {
@@ -324,120 +468,110 @@
           var lat = parseFloat(restaurant.lat);
           var lon = parseFloat(restaurant.lon);
           
+          // Store restaurant
+          allRestaurants.push({
+            data: restaurant,
+            lat: lat,
+            lon: lon,
+            marker: null
+          });
+          
           // Create marker
           var marker = L.marker([lat, lon]).addTo(markersLayer);
+          allRestaurants[allRestaurants.length - 1].marker = marker;
           
-          // Create popup content
-          var popupContent = '<div class="restaurant-popup">';
-          popupContent += '<h3>' + restaurant.name + '</h3>';
-          popupContent += '<p><strong>Address:</strong> ' + restaurant.address + '</p>';
-          popupContent += '<p><strong>Local Sourcing:</strong> ' + restaurant.products + '</p>';
+          // Create popup
+          var score = parseInt(restaurant.local_score) || 0;
+          var rankingBadge = getRankingBadge(score);
           
-          // Add coupon section for premium restaurants
-          if (restaurant.subscription_tier === 'premium' && restaurant.direct_image_url && restaurant.direct_image_url.trim() !== '') {
-            console.log('Premium restaurant found:', restaurant.name);
-            console.log('Coupon URL:', restaurant.direct_image_url);
-            
-            popupContent += '<div class="coupon-section">';
-            popupContent += '<p style="margin: 0;">💰 <a href="' + restaurant.direct_image_url + '" target="_blank" style="color: #2ecc71; text-decoration: underline; font-weight: bold;">View Current Special Offer</a></p>';
-            popupContent += '</div>';
-          } else {
-            console.log('Not premium or no coupon URL:', restaurant.name, restaurant.subscription_tier, restaurant.direct_image_url);
+          var popupContent = '<div style="min-width: 200px;">';
+          popupContent += '<h3 style="margin-bottom: 8px;">' + rankingBadge + restaurant.name + '</h3>';
+          popupContent += '<p style="margin: 4px 0;"><strong>📍</strong> ' + restaurant.address + '</p>';
+          if (restaurant.phone) {
+            popupContent += '<p style="margin: 4px 0;"><strong>📞</strong> ' + restaurant.phone + '</p>';
           }
-          
           popupContent += '</div>';
           
-          marker.bindPopup(popupContent, {
-            maxWidth: 400,
-            minWidth: 250
-          });
+          marker.bindPopup(popupContent);
           
-          // Store for search
-          allMarkers.push({
-            layer: marker,
-            name: restaurant.name.toLowerCase(),
-            address: restaurant.address.toLowerCase(),
-            properties: restaurant
-          });
+          // Add to sidebar
+          var cardHtml = createRestaurantCard(restaurant, allRestaurants.length - 1);
+          $('#restaurant-list').append(cardHtml);
         });
         
         // Fit map to show all markers
-        if (allMarkers.length > 0) {
-          var group = new L.featureGroup(allMarkers.map(m => m.layer));
+        if (allRestaurants.length > 0) {
+          var group = new L.featureGroup(allRestaurants.map(r => r.marker));
           map.fitBounds(group.getBounds(), { padding: [50, 50] });
           console.log('✅ Map centered on all restaurants');
-        } else {
-          console.error('❌ No valid restaurants found in CSV');
-          showError('No restaurant data found. Please check the CSV file.');
         }
       },
       error: function(error) {
         console.error('❌ Error parsing CSV:', error);
-        showError('Unable to load restaurant data: ' + error.message);
+        $('#restaurant-list').html('<div class="empty-state"><i class="fa fa-exclamation-circle"></i><p>Error loading restaurant data.</p></div>');
       }
+    });
+    
+    // Handle restaurant card clicks
+    $(document).on('click', '.restaurant-card', function() {
+      var index = $(this).data('index');
+      var restaurant = allRestaurants[index];
+      
+      // Update selected state
+      $('.restaurant-card').removeClass('selected');
+      $(this).addClass('selected');
+      
+      // Zoom to marker and open popup
+      map.setView([restaurant.lat, restaurant.lon], 15);
+      restaurant.marker.openPopup();
+      
+      // Scroll card into view if needed
+      $(this)[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     
     // Search functionality
-    $('#searchIcon').click(function() {
-      $('#searchBox').toggleClass('active');
-      if ($('#searchBox').hasClass('active')) {
-        $('#searchInput').focus();
-      }
-    });
-    
     $('#searchInput').on('input', function() {
       var searchTerm = $(this).val().toLowerCase();
-      $('#searchResults').empty();
       
-      if (searchTerm.length < 2) {
+      if (searchTerm.length === 0) {
+        // Show all restaurants
+        $('.restaurant-card').show();
         return;
       }
       
-      var results = allMarkers.filter(function(marker) {
-        return marker.name.includes(searchTerm) || marker.address.includes(searchTerm);
-      });
-      
-      if (results.length === 0) {
-        $('#searchResults').html('<div class="search-result-item">No restaurants found</div>');
-        return;
-      }
-      
-      results.forEach(function(result) {
-        var resultHtml = '<div class="search-result-item" data-lat="' + result.layer.getLatLng().lat + '" data-lng="' + result.layer.getLatLng().lng + '">';
-        resultHtml += '<strong>' + result.properties.name + '</strong>';
-        resultHtml += '<small>' + result.properties.address + '</small>';
-        resultHtml += '</div>';
+      // Filter restaurants
+      $('.restaurant-card').each(function() {
+        var index = $(this).data('index');
+        var restaurant = allRestaurants[index].data;
         
-        $('#searchResults').append(resultHtml);
-      });
-    });
-    
-    // Handle search result clicks
-    $(document).on('click', '.search-result-item', function() {
-      var lat = $(this).data('lat');
-      var lng = $(this).data('lng');
-      
-      if (lat && lng) {
-        map.setView([lat, lng], 16);
+        // Build searchable text including:
+        // - Restaurant name
+        // - Address (includes city/area like "Denver", "Boulder")
+        // - Description (the 'products' column - now general description)
+        // - Phone number
+        // - All category names that are marked "Yes"
+        var searchable = (
+          restaurant.name.toLowerCase() + ' ' +
+          restaurant.address.toLowerCase() + ' ' +
+          (restaurant.products || '').toLowerCase() + ' ' +
+          (restaurant.phone || '').toLowerCase()
+        );
         
-        // Find and open the popup for this marker
-        allMarkers.forEach(function(marker) {
-          if (marker.layer.getLatLng().lat === lat && marker.layer.getLatLng().lng === lng) {
-            marker.layer.openPopup();
+        // Add category names to search if they're marked Yes
+        // This lets users search "beef" or "produce" to find restaurants
+        var categories = ['beef', 'pork', 'chicken', 'seafood', 'breads', 'produce', 'dairy', 'desserts', 'appetizers'];
+        categories.forEach(function(cat) {
+          if (restaurant[cat] && restaurant[cat].toLowerCase() === 'yes') {
+            searchable += ' ' + categoryLabels[cat].toLowerCase();
           }
         });
         
-        $('#searchBox').removeClass('active');
-        $('#searchInput').val('');
-        $('#searchResults').empty();
-      }
-    });
-    
-    // Close search box when clicking outside
-    $(document).click(function(event) {
-      if (!$(event.target).closest('#searchBox, #searchIcon').length) {
-        $('#searchBox').removeClass('active');
-      }
+        if (searchable.includes(searchTerm)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
     });
   </script>
 </body>
