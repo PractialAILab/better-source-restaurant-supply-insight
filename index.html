@@ -386,6 +386,19 @@
     
     // Function to get ranking badge HTML based on percentage - ENHANCED DIAGNOSTIC VERSION
     function getRankingBadge(restaurant) {
+      // Log ALL properties of the restaurant object for first restaurant
+      if (!window.fullDebugDone) {
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('🔍 FULL RESTAURANT OBJECT INSPECTION:');
+        console.log('Restaurant name:', restaurant.name);
+        console.log('All properties:');
+        for (var key in restaurant) {
+          console.log('  - ' + key + ': "' + restaurant[key] + '"');
+        }
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        window.fullDebugDone = true;
+      }
+      
       // Get the raw value from the CSV
       var rawValue = restaurant.local_percentage;
       
@@ -476,11 +489,22 @@
     Papa.parse('/assets/data/stores.csv', {
       download: true,
       header: true,
-      skipEmptyLines: true,
+      skipEmptyLines: 'greedy',  // Changed from true to 'greedy' to handle empty cells better
+      delimiter: ',',  // Explicitly set delimiter
+      newline: '',  // Auto-detect line endings
+      quoteChar: '"',
+      escapeChar: '"',
+      transformHeader: function(header) {
+        // Trim whitespace from headers
+        return header.trim();
+      },
       complete: function(results) {
         console.log('✅ CSV parsed successfully!');
         console.log('📊 Total restaurants:', results.data.length);
         console.log('📋 CSV columns:', results.meta.fields);
+        console.log('📋 Column count:', results.meta.fields.length);
+        console.log('📋 Column names:', results.meta.fields.join(', '));
+        console.log('🔍 Sample row data:', results.data[0]);
         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         console.log('🎨 BADGE COLOR LEGEND:');
         console.log('   🟢 Green = 75%+ (Excellent)');
