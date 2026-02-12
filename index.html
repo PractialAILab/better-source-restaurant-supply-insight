@@ -120,28 +120,29 @@
       background: #f0f9f4;
     }
     
-    /* Ranking Badge */
+    /* Ranking Badge - FIXED STYLES */
     .ranking-badge {
       display: inline-block;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      margin-right: 8px;
+      margin-right: 10px;
       vertical-align: middle;
-      border: 2px solid #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      flex-shrink: 0;
     }
     
     .ranking-high {
-      background: #2ecc71;
+      background: #2ecc71 !important;
     }
     
     .ranking-medium {
-      background: #f39c12;
+      background: #f39c12 !important;
     }
     
     .ranking-basic {
-      background: #e74c3c;
+      background: #e74c3c !important;
     }
     
     .restaurant-card h3 {
@@ -378,22 +379,47 @@
       appetizers: 'Appetizers'
     };
     
-    // Function to get ranking badge HTML based on percentage
+    // Function to get ranking badge HTML based on percentage - FIXED VERSION
     function getRankingBadge(restaurant) {
-      var percentage = parseFloat(restaurant.local_percentage) || 0;
+      // Try multiple possible column names (in case CSV headers vary)
+      var percentageStr = restaurant.local_percentage || 
+                          restaurant['local_percentage'] ||
+                          restaurant.local_percent || 
+                          restaurant.percentage || 
+                          restaurant.local || 
+                          '';
       
-      // Debug logging
-      console.log('Restaurant:', restaurant.name);
-      console.log('  local_percentage value:', restaurant.local_percentage);
-      console.log('  parsed percentage:', percentage);
+      // Remove % sign, any whitespace, and parse as float
+      var cleanStr = String(percentageStr).replace(/[%\s]/g, '').trim();
+      var percentage = parseFloat(cleanStr) || 0;
+      
+      // Debug logging - only log first few restaurants to check data
+      if (!window.debugCount) window.debugCount = 0;
+      if (window.debugCount < 3) {
+        console.log('=== Restaurant #' + (window.debugCount + 1) + ' ===');
+        console.log('Name:', restaurant.name);
+        console.log('Raw percentageStr:', percentageStr);
+        console.log('Clean string:', cleanStr);
+        console.log('Parsed percentage:', percentage);
+        console.log('All CSV columns:', Object.keys(restaurant));
+        window.debugCount++;
+      }
+      
+      // Determine badge class based on percentage
+      var badgeClass = 'ranking-basic'; // default
+      var badgeText = 'Basic';
       
       if (percentage >= 75) {
-        return '<span class="ranking-badge ranking-high" title="Excellent Local Sourcing (' + percentage + '% of menu is local)"></span>';
+        badgeClass = 'ranking-high';
+        badgeText = 'Excellent';
       } else if (percentage >= 50) {
-        return '<span class="ranking-badge ranking-medium" title="Good Local Sourcing (' + percentage + '% of menu is local)"></span>';
-      } else {
-        return '<span class="ranking-badge ranking-basic" title="Basic Local Sourcing (' + percentage + '% of menu is local)"></span>';
+        badgeClass = 'ranking-medium';
+        badgeText = 'Good';
       }
+      
+      var title = badgeText + ' Local Sourcing (' + percentage + '% of menu is local)';
+      
+      return '<span class="ranking-badge ' + badgeClass + '" title="' + title + '"></span>';
     }
     
     // Function to get category badges HTML
@@ -453,7 +479,8 @@
       complete: function(results) {
         console.log('✅ CSV parsed successfully!');
         console.log('Number of restaurants:', results.data.length);
-        console.log('Sample data:', results.data[0]);
+        console.log('Sample data (first restaurant):', results.data[0]);
+        console.log('CSV column headers:', results.meta.fields);
         
         if (results.data.length === 0) {
           $('#restaurant-list').html('<div class="empty-state"><i class="fa fa-exclamation-circle"></i><p>No restaurants found.</p></div>');
@@ -549,12 +576,7 @@
         var index = $(this).data('index');
         var restaurant = allRestaurants[index].data;
         
-        // Build searchable text including:
-        // - Restaurant name
-        // - Address (includes city/area like "Denver", "Boulder")
-        // - Description (the 'products' column - now general description)
-        // - Phone number
-        // - All category names that are marked "Yes"
+        // Build searchable text
         var searchable = (
           restaurant.name.toLowerCase() + ' ' +
           restaurant.address.toLowerCase() + ' ' +
@@ -562,8 +584,7 @@
           (restaurant.phone || '').toLowerCase()
         );
         
-        // Add category names to search if they're marked Yes
-        // This lets users search "beef" or "produce" to find restaurants
+        // Add category names to search
         var categories = ['beef', 'pork', 'chicken', 'seafood', 'breads', 'produce', 'dairy', 'desserts', 'appetizers'];
         categories.forEach(function(cat) {
           if (restaurant[cat] && restaurant[cat].toLowerCase() === 'yes') {
@@ -578,10 +599,6 @@
         }
       });
     });
-    } // End of initMap function
-  </script>
-</body>
-</html>
     } // End of initMap function
   </script>
 </body>
