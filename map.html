@@ -891,12 +891,19 @@
     
     // Display current ad in the ad bar
     function displayCurrentAd() {
+      console.log('🎯 displayCurrentAd called, allAds.length:', allAds.length);
+      console.log('🎯 currentAdIndex:', currentAdIndex);
+      console.log('🎯 allAds:', allAds);
+      
       if (allAds.length === 0) {
+        console.log('⚠️ No ads found, showing default message');
         $('#adBar').html('<p>Advertising Space Available - <a href="mailto:bettersourceapp@gmail.com?subject=Advertising Inquiry">Contact us for rates</a></p>');
         return;
       }
       
       var ad = allAds[currentAdIndex];
+      console.log('🎯 Current ad:', ad);
+      
       var html = '<div class="ad-card">';
       
       if (ad.text) {
@@ -918,6 +925,7 @@
         html += '</div>';
       }
       
+      console.log('🎯 Setting adBar HTML:', html);
       $('#adBar').html(html);
     }
     
