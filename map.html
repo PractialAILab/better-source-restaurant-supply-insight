@@ -528,6 +528,10 @@
       var geocodingQueue = [];
       var geocodingInProgress = false;
       
+      // Store for ads
+      var allAds = [];
+      var currentAdIndex = 0;
+      
       // Category labels for display
       var categoryLabels = {
         beef: 'Beef',
@@ -732,10 +736,6 @@
       // Load CSV with cache-busting
       var csvUrl = '/assets/data/stores.csv?v=' + new Date().getTime();
       
-      // Store for ads
-      var allAds = [];
-      var currentAdIndex = 0;
-      
       Papa.parse(csvUrl, {
         download: true,
         header: true,
@@ -757,7 +757,8 @@
             return;
           }
           
-          // Extract ads from CSV
+          // Extract ads from CSV and store globally
+          allAds = [];
           results.data.forEach(function(row) {
             if (row.ad_text && row.ad_text.trim() !== '') {
               allAds.push({
@@ -779,6 +780,9 @@
                 displayCurrentAd();
               }, 10000);
             }
+          } else {
+            // Show default message if no ads
+            displayCurrentAd();
           }
           
           results.data.forEach(function(restaurant, index) {
@@ -877,6 +881,10 @@
         });
       });
     } // End of initMap function
+    
+    // Global variables for ads (accessible from button clicks)
+    var allAds = [];
+    var currentAdIndex = 0;
     
     // Display current ad in the ad bar
     function displayCurrentAd() {
