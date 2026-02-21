@@ -5,9 +5,9 @@
   "display": "standalone",
   "name": "bettersource",
   "orientation": "any",
-  "scope": "/index.html, /about.html, /contact.html, /for-restaurants/html",
+  "scope": "/",
   "short_name": "bettersource",
-  "start_url": "bettersource.app",
+  "start_url": "/",
   "theme_color": "#ffffff",
   "icons": [
     {
@@ -15,40 +15,42 @@
       "type": "image/png",
       "sizes": "32x32",
       "purpose": "any"
-    }
-{
+    },
+    {
       "src": "assets/icons/bettersourcelogo 192x192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
-    }
-{
+    },
+    {
       "src": "assets/icons/bettersourcelogo512x512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
-"screenshots": [
+    }
+  ],
+  "screenshots": [
     {
       "src": "assets/icons/screenshot home.png",
-      "sizes": "497×534",
+      "sizes": "497x534",
       "type": "image/png",
       "label": "Home Screen"
     },
     {
       "src": "assets/icons/screenshot about.png",
-      "sizes": "501×554",
+      "sizes": "501x554",
       "type": "image/png",
       "label": "About Screen"
     },
     {
       "src": "assets/icons/screenshot contact.png",
-      "sizes": "503×402",
+      "sizes": "503x402",
       "type": "image/png",
       "label": "Contact Screen"
     },
     {
       "src": "assets/icons/screenshot restaurants.png",
-      "sizes": "502×523",
+      "sizes": "502x523",
       "type": "image/png",
       "label": "For Restaurants Screen"
     }
